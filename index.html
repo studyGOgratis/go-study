@@ -1,0 +1,73 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>studygo gratis</title>
+    
+    <script src="waaromisingedachtenietgratis.js"></script>
+    <script src="050guessr_framework.js"></script>
+    
+    <script defer src="loader.js"></script>
+  
+</head>
+<body>
+<weblink href="gostudy.html">START DE STUDY</weblink>
+    <webpage><h2>Vragen en Antwoorden Manager</h2>
+  
+        <!-- Display vragen en antwoorden -->
+        <h3>Vragen:</h3>
+        <ul id="vragenList"></ul>
+        
+        <h3>Antwoorden:</h3>
+        <ul id="antwoordenList"></ul>
+      
+        <!-- Import Section -->
+        <textarea id="importFieldVragen" placeholder="Plak vragen, gescheiden door komma's"></textarea><br>
+        <textarea id="importFieldAntwoorden" placeholder="Plak antwoorden, gescheiden door komma's"></textarea><br>
+        <button onclick="importLists()">Importeer Lijsten</button>
+        
+        <!-- Export Section -->
+        <textarea id="exportField" readonly placeholder="Geëxporteerde lijsten verschijnen hier"></textarea><br>
+        <button onclick="exportLists()">Exporteer Lijsten</button>
+      
+        <script>
+          // Functie om de lijsten weer te geven in de UI
+          function displayLists() {
+            displayArray(vragen, "vragenList");
+            displayArray(antwoorden, "antwoordenList");
+          }
+      
+          function displayArray(array, elementId) {
+            const listElement = document.getElementById(elementId);
+            listElement.innerHTML = "";
+            array.forEach(item => {
+              let li = document.createElement("li");
+              li.textContent = item;
+              listElement.appendChild(li);
+            });
+          }
+      
+          // Importfunctie
+          function importLists() {
+            const inputVragen = document.getElementById("importFieldVragen").value;
+            const inputAntwoorden = document.getElementById("importFieldAntwoorden").value;
+      
+            vragen = inputVragen.split(",").map(item => item.trim());
+            antwoorden = inputAntwoorden.split(",").map(item => item.trim());
+            
+            displayLists();
+          }
+      
+          // Exportfunctie
+          function exportLists() {
+            const exportedText = "Vragen: " + vragen.join(", ") + "\nAntwoorden: " + antwoorden.join(", ");
+            document.getElementById("exportField").value = exportedText;
+          }
+      
+          // Beginstatus weergeven
+          displayLists();
+        </script>
+      </webpage>
+    
+</body>
+</html>

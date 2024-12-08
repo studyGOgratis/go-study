@@ -8,66 +8,159 @@
     <script src="050guessr_framework.js"></script>
     
     <script defer src="loader.js"></script>
-  
+  <link rel="stylesheet" href="main.css">
+  <!-- zet de icon in de tab -->
+  <link rel="icon" href="logo.png">
 </head>
 <body>
-<weblink href="gostudy.html">START DE STUDY</weblink>
-    <webpage><h2>Vragen en Antwoorden Manager</h2>
-  
-        <!-- Display vragen en antwoorden -->
-        <h3>Vragen:</h3>
-        <ul id="vragenList"></ul>
-        
-        <h3>Antwoorden:</h3>
-        <ul id="antwoordenList"></ul>
+
+    <webpage>
+
+      <div>
+        <img src="logo.png" alt="">
+
+        <weblink href="gostudy.html">START DE STUDY</weblink>
+
+        <h2>Vragen en Antwoorden Manager</h2>
       
-        <!-- Import Section -->
-        <textarea id="importFieldVragen" placeholder="Plak vragen, gescheiden door komma's"></textarea><br>
-        <textarea id="importFieldAntwoorden" placeholder="Plak antwoorden, gescheiden door komma's"></textarea><br>
+        <!-- Dropdown voor eerder gebruikte lijsten -->
+        <h3>Selecteer een opgeslagen lijst:</h3>
+        <select id="listDropdown" onchange="loadList(this.value)">
+            <option value="" disabled selected>Selecteer een lijst</option>
+        </select>
+        <button onclick="saveNewList()">Opslaan als nieuwe lijst</button>
+      
+
+      
+        <!-- Import Sectie -->
+        <h3>Importeer nieuwe vragen en antwoorden:</h3>
+        <textarea id="importFieldVragen" placeholder="Plak vragen en antwoorden op het juiste formaat"></textarea><br>
         <button onclick="importLists()">Importeer Lijsten</button>
-        
-        <!-- Export Section -->
+      
+        <!-- Export Sectie -->
+        <h3>Exporteren:</h3>
         <textarea id="exportField" readonly placeholder="Geëxporteerde lijsten verschijnen hier"></textarea><br>
         <button onclick="exportLists()">Exporteer Lijsten</button>
-      
-        <script>
-          // Functie om de lijsten weer te geven in de UI
-          function displayLists() {
-            displayArray(vragen, "vragenList");
-            displayArray(antwoorden, "antwoordenList");
-          }
-      
-          function displayArray(array, elementId) {
-            const listElement = document.getElementById(elementId);
-            listElement.innerHTML = "";
-            array.forEach(item => {
-              let li = document.createElement("li");
-              li.textContent = item;
-              listElement.appendChild(li);
-            });
-          }
-      
-          // Importfunctie
-          function importLists() {
-            const inputVragen = document.getElementById("importFieldVragen").value;
-            const inputAntwoorden = document.getElementById("importFieldAntwoorden").value;
-      
-            vragen = inputVragen.split(",").map(item => item.trim());
-            antwoorden = inputAntwoorden.split(",").map(item => item.trim());
+              <!-- Weergave van vragen en antwoorden -->
+              <h3>Vragen:</h3>
+              <ul id="vragenList"></ul>
             
-            displayLists();
-          }
+              <h3>Antwoorden:</h3>
+              <ul id="antwoordenList"></ul>
+        <script>
+            // Door Fred AI: Vragen en antwoorden lokaal beheren en opslaan
       
-          // Exportfunctie
-          function exportLists() {
-            const exportedText = "Vragen: " + vragen.join(", ") + "\nAntwoorden: " + antwoorden.join(", ");
-            document.getElementById("exportField").value = exportedText;
-          }
+            // Opslaan in localStorage
+            function saveToLocalStorage() {
+                localStorage.setItem("vragen", JSON.stringify(vragen));
+                localStorage.setItem("antwoorden", JSON.stringify(antwoorden));
+            }
       
-          // Beginstatus weergeven
-          displayLists();
+            // Laden uit localStorage
+            function loadFromLocalStorage() {
+                const storedVragen = localStorage.getItem("vragen");
+                const storedAntwoorden = localStorage.getItem("antwoorden");
+      
+                if (storedVragen && storedAntwoorden) {
+                    vragen = JSON.parse(storedVragen);
+                    antwoorden = JSON.parse(storedAntwoorden);
+                } else {
+                    vragen = [];
+                    antwoorden = [];
+                }
+      
+                displayLists();
+            }
+      
+            // Functie om lijsten te importeren
+            function importLists() {
+                const inputVragen = document.getElementById("importFieldVragen").value;
+                const lines = inputVragen.split("\n").filter(line => line.trim() !== ""); // Verwijder lege lijnen
+                vragen = [];
+                antwoorden = [];
+      
+                lines.forEach((line, index) => {
+                    if (index % 2 === 0) {
+                        vragen.push(line.trim());
+                    } else {
+                        antwoorden.push(line.trim());
+                    }
+                });
+      
+                displayLists();
+                saveToLocalStorage(); // Sla wijzigingen op
+            }
+      
+            // Functie om lijsten in de UI weer te geven
+            function displayLists() {
+            }
+      
+            // Hulpfunctie voor het weergeven van een array in een lijst
+            function displayArray(array, elementId) {
+                const listElement = document.getElementById(elementId);
+                listElement.innerHTML = "";
+                array.forEach(item => {
+                    let li = document.createElement("li");
+                    li.textContent = item;
+                    listElement.appendChild(li);
+                });
+            }
+      
+            // Exporteren van lijsten naar een tekstveld
+            function exportLists() {
+                const exportedText = vragen.join("\n") + "\n" + antwoorden.join("\n");
+                document.getElementById("exportField").value = exportedText;
+            }
+      
+            // Opslaan van nieuwe lijsten in localStorage
+            function saveList(name) {
+                const storedLists = JSON.parse(localStorage.getItem("allLists")) || {};
+                storedLists[name] = { vragen, antwoorden };
+                localStorage.setItem("allLists", JSON.stringify(storedLists));
+                updateDropdown();
+            }
+      
+            // Laden van een lijst uit localStorage
+            function loadList(name) {
+                const storedLists = JSON.parse(localStorage.getItem("allLists")) || {};
+                if (storedLists[name]) {
+                    vragen = storedLists[name].vragen;
+                    antwoorden = storedLists[name].antwoorden;
+                    displayLists();
+                } else {
+                    alert("Lijst niet gevonden!");
+                }
+            }
+      
+            // Updaten van de dropdown met opgeslagen lijsten
+            function updateDropdown() {
+                const dropdown = document.getElementById("listDropdown");
+                const storedLists = JSON.parse(localStorage.getItem("allLists")) || {};
+      
+                dropdown.innerHTML = '<option value="" disabled selected>Selecteer een lijst</option>';
+                for (const listName in storedLists) {
+                    const option = document.createElement("option");
+                    option.value = listName;
+                    option.textContent = listName;
+                    dropdown.appendChild(option);
+                }
+            }
+      
+            // Opslaan als nieuwe lijst
+            function saveNewList() {
+                const listName = prompt("Geef een naam voor deze lijst:");
+                if (listName) {
+                    saveList(listName);
+                }
+            }
+      
+            // Bij het laden van de pagina
+            loadFromLocalStorage();
+            updateDropdown();
         </script>
+      
+      </div>
       </webpage>
-    
+
 </body>
 </html>

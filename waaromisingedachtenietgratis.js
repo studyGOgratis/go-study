@@ -17,6 +17,6 @@ function antwoord_UI() {
 function AntwoordGoed() {
     vragen.splice(vraag, 1);
     antwoorden.splice(vraag, 1);
-    goTo("index.html");
+    goTo("gostudy.html");
 
 }

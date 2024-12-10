@@ -36,17 +36,7 @@
         <h3>Importeer nieuwe vragen en antwoorden:</h3>
         <textarea id="importFieldVragen" placeholder="Plak vragen en antwoorden op het juiste formaat"></textarea><br>
         <button onclick="importLists()">Importeer Lijsten</button>
-      
-        <!-- Export Sectie -->
-        <h3>Exporteren:</h3>
-        <textarea id="exportField" readonly placeholder="Geëxporteerde lijsten verschijnen hier"></textarea><br>
-        <button onclick="exportLists()">Exporteer Lijsten</button>
-              <!-- Weergave van vragen en antwoorden -->
-              <h3>Vragen:</h3>
-              <ul id="vragenList"></ul>
-            
-              <h3>Antwoorden:</h3>
-              <ul id="antwoordenList"></ul>
+    
         <script>
             // Door Fred AI: Vragen en antwoorden lokaal beheren en opslaan
       
@@ -104,12 +94,6 @@
                     li.textContent = item;
                     listElement.appendChild(li);
                 });
-            }
-      
-            // Exporteren van lijsten naar een tekstveld
-            function exportLists() {
-                const exportedText = vragen.join("\n") + "\n" + antwoorden.join("\n");
-                document.getElementById("exportField").value = exportedText;
             }
       
             // Opslaan van nieuwe lijsten in localStorage

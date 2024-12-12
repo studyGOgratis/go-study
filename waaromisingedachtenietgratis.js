@@ -4,7 +4,8 @@ let vraag = 0;
 
 function nieuwe_vraag(){
     if (vragen.length == 0) {
-        goTo("index.html");
+        // reload the page to clear evrything
+        window.location.reload();
     }
     vraag = Math.floor(Math.random() * vragen.length);
 }

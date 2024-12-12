@@ -1,150 +1,221 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>studygo gratis</title>
-    
-    <script src="waaromisingedachtenietgratis.js"></script>
-    <script src="050guessr_framework.js"></script>
-    
-    <script defer src="loader.js"></script>
-  <link rel="stylesheet" href="main.css">
-  <!-- zet de icon in de tab -->
-  <link rel="icon" href="logo.png">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>studygo gratis</title>
 
-    <webpage>
+        <script src="waaromisingedachtenietgratis.js"></script>
+        <script src="050guessr_framework.js"></script>
 
-      <div>
-        <img src="logo.png" alt="">
+        <script defer src="loader.js"></script>
+        <link rel="stylesheet" href="main.css" />
+        <!-- zet de icon in de tab -->
+        <link rel="icon" href="logo.png" />
+    </head>
+    <body>
+        <webpage>
+            <div>
+                <img src="logo.png" alt="" />
 
-        <weblink href="gostudy.html">START DE STUDY</weblink>
+                <weblink href="gostudy.html">START DE STUDY</weblink>
 
-        <h2>Vragen en Antwoorden Manager</h2>
-      
-        <!-- Dropdown voor eerder gebruikte lijsten -->
-        <h3>Selecteer een opgeslagen lijst:</h3>
-        <select id="listDropdown" onchange="loadList(this.value)">
-            <option value="" disabled selected>Selecteer een lijst</option>
-        </select>
-        <button onclick="saveNewList()">Opslaan als nieuwe lijst</button>
-      
+                <h2>Vragen en Antwoorden Manager</h2>
 
-      
-        <!-- Import Sectie -->
-        <h3>Importeer nieuwe vragen en antwoorden:</h3>
-        <textarea id="importFieldVragen" placeholder="Plak vragen en antwoorden op het juiste formaat"></textarea><br>
-        <button onclick="importLists()">Importeer Lijsten</button>
-    
-        <script>
-            // Door Fred AI: Vragen en antwoorden lokaal beheren en opslaan
-      
-            // Opslaan in localStorage
-            function saveToLocalStorage() {
-                localStorage.setItem("vragen", JSON.stringify(vragen));
-                localStorage.setItem("antwoorden", JSON.stringify(antwoorden));
-            }
-      
-            // Laden uit localStorage
-            function loadFromLocalStorage() {
-                const storedVragen = localStorage.getItem("vragen");
-                const storedAntwoorden = localStorage.getItem("antwoorden");
-      
-                if (storedVragen && storedAntwoorden) {
-                    vragen = JSON.parse(storedVragen);
-                    antwoorden = JSON.parse(storedAntwoorden);
-                } else {
-                    vragen = [];
-                    antwoorden = [];
-                }
-      
-                displayLists();
-            }
-      
-            // Functie om lijsten te importeren
-            function importLists() {
-                const inputVragen = document.getElementById("importFieldVragen").value;
-                const lines = inputVragen.split("\n").filter(line => line.trim() !== ""); // Verwijder lege lijnen
-                vragen = [];
-                antwoorden = [];
-      
-                lines.forEach((line, index) => {
-                    if (index % 2 === 0) {
-                        vragen.push(line.trim());
-                    } else {
-                        antwoorden.push(line.trim());
+                <!-- Dropdown voor eerder gebruikte lijsten -->
+                <h3>Selecteer een opgeslagen lijst:</h3>
+                <select id="listDropdown" onchange="loadList(this.value)">
+                    <option value="" disabled selected>
+                        Selecteer een lijst
+                    </option>
+                </select>
+                <button onclick="saveNewList()">
+                    Opslaan als nieuwe lijst
+                </button>
+
+                <!-- Import Sectie -->
+                <h3>Importeer nieuwe vragen en antwoorden:</h3>
+                <textarea
+                    id="importFieldVragen"
+                    placeholder="Plak vragen en antwoorden op het juiste formaat"
+                ></textarea
+                ><br />
+                <button onclick="importLists()">Importeer Lijsten</button>
+                <button onclick="la_txt4()">Importeer latijn tekst 6</button>
+
+                <script>
+                    // Door Fred AI: Vragen en antwoorden lokaal beheren en opslaan
+
+                    // Opslaan in localStorage
+                    function saveToLocalStorage() {
+                        localStorage.setItem("vragen", JSON.stringify(vragen));
+                        localStorage.setItem(
+                            "antwoorden",
+                            JSON.stringify(antwoorden),
+                        );
                     }
-                });
-      
-                displayLists();
-                saveToLocalStorage(); // Sla wijzigingen op
-            }
-      
-            // Functie om lijsten in de UI weer te geven
-            function displayLists() {
-            }
-      
-            // Hulpfunctie voor het weergeven van een array in een lijst
-            function displayArray(array, elementId) {
-                const listElement = document.getElementById(elementId);
-                listElement.innerHTML = "";
-                array.forEach(item => {
-                    let li = document.createElement("li");
-                    li.textContent = item;
-                    listElement.appendChild(li);
-                });
-            }
-      
-            // Opslaan van nieuwe lijsten in localStorage
-            function saveList(name) {
-                const storedLists = JSON.parse(localStorage.getItem("allLists")) || {};
-                storedLists[name] = { vragen, antwoorden };
-                localStorage.setItem("allLists", JSON.stringify(storedLists));
-                updateDropdown();
-            }
-      
-            // Laden van een lijst uit localStorage
-            function loadList(name) {
-                const storedLists = JSON.parse(localStorage.getItem("allLists")) || {};
-                if (storedLists[name]) {
-                    vragen = storedLists[name].vragen;
-                    antwoorden = storedLists[name].antwoorden;
-                    displayLists();
-                } else {
-                    alert("Lijst niet gevonden!");
-                }
-            }
-      
-            // Updaten van de dropdown met opgeslagen lijsten
-            function updateDropdown() {
-                const dropdown = document.getElementById("listDropdown");
-                const storedLists = JSON.parse(localStorage.getItem("allLists")) || {};
-      
-                dropdown.innerHTML = '<option value="" disabled selected>Selecteer een lijst</option>';
-                for (const listName in storedLists) {
-                    const option = document.createElement("option");
-                    option.value = listName;
-                    option.textContent = listName;
-                    dropdown.appendChild(option);
-                }
-            }
-      
-            // Opslaan als nieuwe lijst
-            function saveNewList() {
-                const listName = prompt("Geef een naam voor deze lijst:");
-                if (listName) {
-                    saveList(listName);
-                }
-            }
-      
-            // Bij het laden van de pagina
-            loadFromLocalStorage();
-            updateDropdown();
-        </script>
-      
-      </div>
-      </webpage>
 
-</body>
+                    // Laden uit localStorage
+                    function loadFromLocalStorage() {
+                        const storedVragen = localStorage.getItem("vragen");
+                        const storedAntwoorden =
+                            localStorage.getItem("antwoorden");
+
+                        if (storedVragen && storedAntwoorden) {
+                            vragen = JSON.parse(storedVragen);
+                            antwoorden = JSON.parse(storedAntwoorden);
+                        } else {
+                            vragen = [];
+                            antwoorden = [];
+                        }
+
+                        displayLists();
+                    }
+
+                    // Functie om lijsten te importeren
+                    function importLists() {
+                        const inputVragen =
+                            document.getElementById("importFieldVragen").value;
+                        const lines = inputVragen
+                            .split("\n")
+                            .filter((line) => line.trim() !== ""); // Verwijder lege lijnen
+                        vragen = [];
+                        antwoorden = [];
+
+                        lines.forEach((line, index) => {
+                            if (index % 2 === 0) {
+                                vragen.push(line.trim());
+                            } else {
+                                antwoorden.push(line.trim());
+                            }
+                        });
+
+                        displayLists();
+                        saveToLocalStorage(); // Sla wijzigingen op
+                    }
+
+                    // Functie om lijsten in de UI weer te geven
+                    function displayLists() {}
+
+                    // Hulpfunctie voor het weergeven van een array in een lijst
+                    function displayArray(array, elementId) {
+                        const listElement = document.getElementById(elementId);
+                        listElement.innerHTML = "";
+                        array.forEach((item) => {
+                            let li = document.createElement("li");
+                            li.textContent = item;
+                            listElement.appendChild(li);
+                        });
+                    }
+
+                    // Opslaan van nieuwe lijsten in localStorage
+                    function saveList(name) {
+                        const storedLists =
+                            JSON.parse(localStorage.getItem("allLists")) || {};
+                        storedLists[name] = { vragen, antwoorden };
+                        localStorage.setItem(
+                            "allLists",
+                            JSON.stringify(storedLists),
+                        );
+                        updateDropdown();
+                    }
+
+                    // Laden van een lijst uit localStorage
+                    function loadList(name) {
+                        const storedLists =
+                            JSON.parse(localStorage.getItem("allLists")) || {};
+                        if (storedLists[name]) {
+                            vragen = storedLists[name].vragen;
+                            antwoorden = storedLists[name].antwoorden;
+                            displayLists();
+                        } else {
+                            alert("Lijst niet gevonden!");
+                        }
+                    }
+
+                    // Updaten van de dropdown met opgeslagen lijsten
+                    function updateDropdown() {
+                        const dropdown =
+                            document.getElementById("listDropdown");
+                        const storedLists =
+                            JSON.parse(localStorage.getItem("allLists")) || {};
+
+                        dropdown.innerHTML =
+                            '<option value="" disabled selected>Selecteer een lijst</option>';
+                        for (const listName in storedLists) {
+                            const option = document.createElement("option");
+                            option.value = listName;
+                            option.textContent = listName;
+                            dropdown.appendChild(option);
+                        }
+                    }
+
+                    // Opslaan als nieuwe lijst
+                    function saveNewList() {
+                        const listName = prompt(
+                            "Geef een naam voor deze lijst:",
+                        );
+                        if (listName) {
+                            saveList(listName);
+                        }
+                    }
+
+                    // Bij het laden van de pagina
+                    loadFromLocalStorage();
+                    updateDropdown();
+                    function la_txt4() {
+                        document.getElementById("importFieldVragen").innerHTML =
+                            `bellum
+              oorlog
+              gerō
+              dragen / voeren
+              victōria
+              overwinning
+              dux
+              aanvoerder, leider
+              equus
+              paard
+              sedeō, sedēre
+              zitten
+              pugna
+              gevecht
+              vinco
+              (over)winnen
+              fugio
+              vluchten
+              interea
+              intussen
+              exspectō
+              wachten (op)
+              forum
+              forum, marktplaats
+              pro
+              voor / in plaats van
+              vita
+              (het) leven
+              pugno
+              vechten
+              num
+              (toch) zeker niet
+              vendo
+              verkopen
+              cupio
+              graag willen, verlangen
+              amo
+              houden van, liefhebben
+              prope
+              dicht bij
+              templum
+              tempel
+              narro
+              vertellen
+              celebro
+              (feest) vieren
+              scilicet
+              natuurlijk`;
+                        importLists();
+                    }
+                </script>
+            </div>
+        </webpage>
+    </body>
 </html>

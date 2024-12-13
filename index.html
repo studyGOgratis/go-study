@@ -28,9 +28,6 @@
                         Selecteer een lijst
                     </option>
                 </select>
-                <button onclick="saveNewList()">
-                    Opslaan als nieuwe lijst
-                </button>
 
                 <!-- Import Sectie -->
                 <h3>Importeer nieuwe vragen en antwoorden:</h3>
@@ -67,8 +64,6 @@
                             vragen = [];
                             antwoorden = [];
                         }
-
-                        displayLists();
                     }
 
                     // Functie om lijsten te importeren
@@ -89,12 +84,9 @@
                             }
                         });
 
-                        displayLists();
                         saveToLocalStorage(); // Sla wijzigingen op
+                        saveNewList();
                     }
-
-                    // Functie om lijsten in de UI weer te geven
-                    function displayLists() {}
 
                     // Hulpfunctie voor het weergeven van een array in een lijst
                     function displayArray(array, elementId) {

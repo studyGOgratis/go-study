@@ -9,7 +9,7 @@ function nieuwe_vraag(){
         window.location.reload();
     }
     vraag = Math.floor(Math.random() * vragen.length);
-    if (vraag == lasted_vraag and !vragen.length == 1) {
+    if (vraag == lasted_vraag && ! vragen.length == 1) {
         nieuwe_vraag();
         
     }

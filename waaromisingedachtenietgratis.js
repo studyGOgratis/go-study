@@ -4,6 +4,7 @@ const MEERKEUZE_KEUZES = ["MEERKEUZE_A", "MEERKEUZE_B", "MEERKEUZE_C", "MEERKEUZ
 let antwoord_oud = antwoorden;
 let vragen_oud = vragen;
 let mode = 1
+let lasted_vraag = "sdigfysgyfegfygsuygyfghdmncsbyuuaihwuay8748wy468w7yhduybfkyzytfeufiuysudkbfaw736i8w7yhaiuw3hbqyik27yqo0o78ieygfoiwubhrfuiyr8ai7yewiouhs";
 let vraag = 0;
 let MEERKEUZE_ANDWOORD_G_of_F = false;
 
@@ -13,6 +14,11 @@ function nieuwe_vraag() {
         window.location.reload();
     }
     vraag = Math.floor(Math.random() * vragen.length);
+    if (vraag == lasted_vraag && ! vragen.length == 1) {
+        nieuwe_vraag();
+        
+    }
+    lasted_vraag = vraag;
 }
 function vraag_UI() {
     document.getElementById("vraag").innerHTML = vragen[vraag];

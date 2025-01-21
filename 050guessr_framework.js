@@ -4,34 +4,36 @@ function activate() {
     allLinks.forEach(element => {
         let originalLink = element.getAttribute('href'); // Get the original link
         if (originalLink && originalLink !== "") {
-            element.setAttribute('href', "javascript:goTo('" + originalLink + "')"); // Set the href to JS function
-            element.innerHTML = element.innerHTML; // Transfer inner content of <weblink> to <a>
-
-            changeTag(element, 'a'); // Replace <weblink> with the new <a> tag
+            let aTag = document.createElement('a'); // Create a new <a> tag
+            aTag.setAttribute('href', "javascript:goTo('" + originalLink + "')"); // Set the href to JS function
+            aTag.innerHTML = element.innerHTML; // Transfer inner content of <weblink> to <a>
+    
+            element.replaceWith(aTag); // Replace <weblink> with the new <a> tag
         }
     });
 
-    let linkTriggers = document.querySelectorAll('linktrigger'); // Select <weblink> tags
+    let linkTriggers = document.querySelectorAll('linkTrigger'); // Select <weblink> tags
 
     linkTriggers.forEach(element => {
         let originalLink = element.getAttribute('js'); // Get the original link
-
-        element.setAttribute('href', "javascript:eval('" + originalLink + "')"); // Set the href to JS function
-        element.innerHTML = element.innerHTML; // Transfer inner content of <weblink> to <a>
-
-        changeTag(element, 'a'); // Replace <weblink> with the new <a> tag
-
+        if (originalLink && originalLink !== "") {
+            let aTag = document.createElement('a'); // Create a new <a> tag
+            aTag.setAttribute('href', "javascript:eval('" + originalLink + "')"); // Set the href to JS function
+            aTag.innerHTML = element.innerHTML; // Transfer inner content of <weblink> to <a>
+    
+            element.replaceWith(aTag); // Replace <weblink> with the new <a> tag
+        }
     });
 
 
-
+        
     let Triggers = document.querySelectorAll('trigger'); // Select <trigger> tags
 
     Triggers.forEach(element => {
         eval(element.innerHTML);
         element.remove();
     });
-
+    
 
 
 }

@@ -43,34 +43,6 @@
             <script>
                 // Door Fred AI: Vragen en antwoorden lokaal beheren en opslaan
 
-      <div>
-        <img src="logo.png" alt="">
-
-        <weblink href="gostudy.html">START INGEDACHTEN</weblink>
-        <weblink href="MEERKEUZE.html">START MEERKEUZEN</weblink>
-
-
-        <h2>Vragen en Antwoorden Manager</h2>
-      
-        <!-- Dropdown voor eerder gebruikte lijsten -->
-        <h3>Selecteer een opgeslagen lijst:</h3>
-        <select id="listDropdown" onchange="loadList(this.value)">
-            <option value="" disabled selected>Selecteer een lijst</option>
-        </select>
-        <button onclick="saveNewList()">Opslaan als nieuwe lijst</button>
-      
-
-      
-        <!-- Import Sectie -->
-        <h3>Importeer nieuwe vragen en antwoorden:</h3>
-        <textarea id="importFieldVragen" placeholder="Plak vragen en antwoorden op het juiste formaat"></textarea><br>
-        <button onclick="importLists()">Importeer Lijsten</button>
-    
-        <script>
-            // Door Fred AI: Vragen en antwoorden lokaal beheren en opslaan
-      
-            // Opslaan in localStorag
-      
                 // Opslaan in localStorage
                 function saveToLocalStorage() {
                     localStorage.setItem("vragen", JSON.stringify(vragen));

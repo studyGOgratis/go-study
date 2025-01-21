@@ -5,6 +5,7 @@ let antwoord_oud = antwoorden;
 let vragen_oud = vragen;
 let mode = 1
 let vraag = 0;
+// E
 let MEERKEUZE_ANDWOORD_G_of_F = false;
 
 function nieuwe_vraag() {
